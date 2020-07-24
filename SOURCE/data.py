@@ -10,8 +10,16 @@ Ex maze:
     0 0 0 0
 --> maze[2][2] will be 3
 """
-
-def get_maze():
-    pass
+def string_to_number(str):
+    return [int(i) for i in str] 
+def get_maze(filename):
+    f = open(filename,'r')
+    input,pos,size = [],[],[]
+    size = f.readline()
+    temp = f.readlines()
+    for index in range(len(temp)):
+        input.append(string_to_number(temp[index].split()))
+    pos= input.pop(-1)
+    return input,size,pos
 
     
