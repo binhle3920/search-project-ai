@@ -16,11 +16,25 @@ class PacmanGame(tk.Frame):
         wall_block_image = wall_block_image.resize((size_of_block, size_of_block), Image.ANTIALIAS)
         wall_block_image = ImageTk.PhotoImage(wall_block_image)
 
+        food_image = Image.open("../IMAGE/food.png")
+        food_image = food_image.resize((size_of_block, size_of_block), Image.ANTIALIAS)
+        food_image = ImageTk.PhotoImage(food_image)
+
+        ghost_image = Image.open("../IMAGE/ghost.png")
+        ghost_image = ghost_image.resize((size_of_block, size_of_block), Image.ANTIALIAS)
+        ghost_image = ImageTk.PhotoImage(ghost_image)
+
         for row in range(self.size[0]):
             for column in range(self.size[1]):
                 if self.maze[row][column] == 1:
                     self.maze_frame.create_image(column * size_of_block, row * size_of_block, anchor='nw', image=wall_block_image)
-                    self.maze_frame.image = [wall_block_image]
+                if self.maze[row][column] == 2:
+                    self.maze_frame.create_image(column * size_of_block, row * size_of_block, anchor='nw', image=food_image)
+                if self.maze[row][column] == 3:
+                    self.maze_frame.create_image(column * size_of_block, row * size_of_block, anchor='nw', image=ghost_image)
+        
+        self.maze_frame.image = [wall_block_image, food_image, ghost_image]
+
 
     def draw_pacman(self):
         pacman_image = Image.open("../IMAGE/pacman.png")
