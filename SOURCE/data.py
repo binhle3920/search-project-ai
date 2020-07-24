@@ -12,14 +12,17 @@ Ex maze:
 """
 def string_to_number(str):
     return [int(i) for i in str] 
+
 def get_maze(filename):
-    f = open(filename,'r')
-    input,pos,size = [],[],[]
+    f = open(filename, 'r')
+    maze, pos, size = [],[],[]
     size = f.readline()
     temp = f.readlines()
     for index in range(len(temp)):
-        input.append(string_to_number(temp[index].split()))
-    pos= input.pop(-1)
-    return input,size,pos
+        maze.append(string_to_number(temp[index].split()))
+    pos = maze.pop(-1)
+    size = string_to_number(size.split())
+    return maze, size, pos
 
+print(get_maze("../INPUT/map1_level1.txt"))
     
