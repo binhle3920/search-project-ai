@@ -1,0 +1,14 @@
+- Input file (anyone can do)
+- Draw map from Input file - ???
+- Draw pacman moves follow path (animation???)
+
+Level 1:
+- Same as Lab01 --> Choose the best algorithm to implement
+The function need to return path and point.
+
+Level 2:
+- Same as level 1 --> We see monsters as wall
+
+Level 3:
+
+
