@@ -46,7 +46,7 @@ class PacmanGame(tk.Frame):
 
 if __name__ == '__main__':
     root = tk.Tk()
-    pacman_game = PacmanGame("../INPUT/map5_lv2.txt", master=root)
+    pacman_game = PacmanGame("../INPUT/map5_lv4.txt", master=root)
     pacman_game.master.title("Pacman Game")
     pacman_game.draw_maze()
     pacman_game.draw_pacman()
