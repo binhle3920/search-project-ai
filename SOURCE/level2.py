@@ -40,7 +40,15 @@ def AddNode(v,x):
         return [v[0],v[1]+1]
     else: return -1
     
-def A_star(start,goal):
+def A_star(path):
+    Mapdata=data.get_maze(path) #"../INPUT/map1_lv2.txt"
+    PacmanPos=Mapdata[2]
+    MapLen=Mapdata[1]
+    Map=Mapdata[0]
+    Food_Pos=find_1_Food(Map)
+
+    start=PacmanPos
+    goal=Food_Pos
     frontier=[(Manhattan(start,goal),start)]
     explored=[]
     trace=[]
@@ -86,11 +94,8 @@ def A_star(start,goal):
                         frontier[pos_frontier]=(path_cost+1+Manhattan(temp,goal),temp)
     return False
 
-Mapdata=data.get_maze("../INPUT/map1_lv2.txt")
-PacmanPos=Mapdata[2]
-MapLen=Mapdata[1]
-Map=Mapdata[0]
+def A_star_run(path):
+    #Level 2 - 1 food and monsters
+    return A_star(path)
 
-#Level 2 - 1 food and monsters
-Food_Pos=find_1_Food(Map)
-print(A_star(PacmanPos,Food_Pos))
+#print(A_star_run("../INPUT/map1_lv2.txt"))
