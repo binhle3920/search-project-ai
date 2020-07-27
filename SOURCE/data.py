@@ -24,5 +24,4 @@ def get_maze(filename):
     size = string_to_number(size.split())
     return maze, size, pos
 
-#print(get_maze("../INPUT/map1_lv1.txt"))
-    
+print(get_maze("../INPUT/map1_lv1.txt"))
