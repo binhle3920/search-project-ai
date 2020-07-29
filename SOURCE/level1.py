@@ -48,11 +48,12 @@ def BFS(path): #path= link dan
     if start == goal:
         return [start]
     visited = {start}
-    queue = collections.deque([(start, ())])
+    queue = collections.deque([(start,())])
    # print(queue)
     Time =0
     while queue:
-        current, path = queue.popleft()
+        current,path = queue.popleft()
+       
         #print(current)
         visited.add(current)
         
@@ -60,13 +61,21 @@ def BFS(path): #path= link dan
         for neighbor in graph[current]: 
             #print(neighbor)         
             if neighbor == goal:
-                print(path)
-                return path + ((current, neighbor)),Time
+                a=[]
+                for i in range(0,len(path),2):
+                    a.append((path[i],path[i+1]))
+                a.append(current)
+                a.append(neighbor)
+                kq = a
+                return kq,Time
+                   
+                
             if neighbor in visited:
                 continue
-            queue.append((neighbor, (path + current)))
+            queue.append((neighbor, path+current)) # sai dday
             visited.add(neighbor) 
-            print(queue)  
+           # print(queue)
+           # print(visited)  
       
     
     return None
