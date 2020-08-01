@@ -3,9 +3,9 @@ from PIL import Image, ImageTk
 import time
 import data 
 import level2
+import level1
 
 size_of_block = 50
-#path=[(0,0), (1,0) , (1,1), (1,2), (1,3) , (2,3),(3,3),(3,4),(3,5),(3,6),(3,7),(3,8),(4,8),(5,8),(6,8),(7,8),(7,7)]
 
 class PacmanGame(tk.Frame):
     def __init__(self, maze_name, master = None):
@@ -69,15 +69,3 @@ class PacmanGame(tk.Frame):
         self.maze_frame.update()
         self.pacman_move(path, index_path + 1)
 
-if __name__ == '__main__':
-    root = tk.Tk()
-    pacman_game = PacmanGame("../INPUT/map2_lv2.txt", master=root)
-    path = level2.A_star_run("../INPUT/map2_lv2.txt")
-
-    pacman_game.master.title("Pacman Game")
-    pacman_game.draw_maze()
-    pacman_game.draw_pacman()
-
-
-    pacman_game.pacman_move(path, 1)
-    pacman_game.mainloop()
