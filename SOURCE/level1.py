@@ -26,13 +26,7 @@ def path_G(Map):
         list[tuple(temp[i])]=temp2
         temp2=[]
 
-   
-    
-    print(list)
     return list
-
-    
-
 
 
 def BFS(path): #path= link dan
@@ -42,24 +36,21 @@ def BFS(path): #path= link dan
    
     graph = path_G(Map)
     start = tuple(Pacman_pos) #list
-   # print(start)
     goal = tuple(Food_pos) # list
-   # print(goal)
+
     if start == goal:
         return [start]
     visited = {start}
     queue = collections.deque([(start,())])
-   # print(queue)
-    Time =0
+
+    Time = 0
     while queue:
         current,path = queue.popleft()
        
-        #print(current)
         visited.add(current)
         
         Time = Time +1
-        for neighbor in graph[current]: 
-            #print(neighbor)         
+        for neighbor in graph[current]:          
             if neighbor == goal:
                 a=[]
                 for i in range(0,len(path),2):
@@ -67,23 +58,16 @@ def BFS(path): #path= link dan
                 a.append(current)
                 a.append(neighbor)
                 kq = a
-                return kq,Time
+                return kq
                    
                 
             if neighbor in visited:
                 continue
             queue.append((neighbor, path+current)) # sai dday
             visited.add(neighbor) 
-           # print(queue)
-           # print(visited)  
       
     
     return None
-
-
-
-a,c=BFS("../INPUT/map1_lv1.txt")
-print(a)
 
 
 

@@ -98,4 +98,4 @@ def A_star_run(path):
     #Level 2 - 1 food and monsters
     return A_star(path)
 
-#print(A_star_run("../INPUT/map1_lv2.txt"))
+
