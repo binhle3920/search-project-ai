@@ -13,7 +13,7 @@ def find_1_Food(Map):
     for index_i,i in enumerate(Map):
         for index_j,j in enumerate(i):
             if j==2:
-                return [index_i,index_j]
+                return (index_i,index_j)
     #try except return none
    
 def Manhattan(u,v):
@@ -31,13 +31,13 @@ def AddNode(v,x):
     #2 hang+1,cot
     #3 hang,cot+1
     if x==0:
-        return [v[0]-1, v[1]]
+        return (v[0]-1, v[1])
     elif x==1: 
-        return [v[0], v[1]-1]
+        return (v[0], v[1]-1)
     elif x==2: 
-        return [v[0]+1, v[1]]
+        return (v[0]+1, v[1])
     elif x==3: 
-        return [v[0],v[1]+1]
+        return (v[0],v[1]+1)
     else: return -1
     
 def A_star(path):
@@ -47,8 +47,8 @@ def A_star(path):
     Map=Mapdata[0]
     Food_Pos=find_1_Food(Map)
 
-    start=PacmanPos
-    goal=Food_Pos
+    start=tuple(PacmanPos)
+    goal=tuple(Food_Pos)
     frontier=[(Manhattan(start,goal),start)]
     explored=[]
     trace=[]
@@ -86,11 +86,11 @@ def A_star(path):
             if (check) and (Map[temp[0]][temp[1]]!=1) and (Map[temp[0]][temp[1]]!=3):
                 pos_frontier = findValue(frontier,temp)
                 if (temp not in explored) and (pos_frontier == -1):
-                    trace[temp[0]][temp[1]]=[u_node[0],u_node[1]]
+                    trace[temp[0]][temp[1]]=(u_node[0],u_node[1])
                     frontier.append((path_cost+1+Manhattan(temp,goal),temp))
                 elif pos_frontier != -1:
                     if frontier[pos_frontier][0]> path_cost+1+Manhattan(temp,goal):
-                        trace[temp[0]][temp[1]]=[u_node[0],u_node[1]]
+                        trace[temp[0]][temp[1]]=(u_node[0],u_node[1])
                         frontier[pos_frontier]=(path_cost+1+Manhattan(temp,goal),temp)
     return False
 
@@ -98,4 +98,8 @@ def A_star_run(path):
     #Level 2 - 1 food and monsters
     return A_star(path)
 
+<<<<<<< HEAD
 
+=======
+print(A_star_run("../INPUT/map1_lv2.txt"))
+>>>>>>> bfe946efb8124a8da45fbbd5e21c0115c35a0f0e
