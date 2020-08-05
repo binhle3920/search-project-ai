@@ -2,9 +2,11 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import time
 import data 
+import level2
 
 size_of_block = 50 
-path=[(0,0), (1,0) , (1,1), (1,2), (1,3) , (2,3),(3,3),(3,4),(3,5),(3,6),(3,7),(3,8),(4,8),(5,8),(6,8),(7,8),(7,7)]
+path = level2.A_star_run("../INPUT/map5_lv1.txt")
+
 class PacmanGame(tk.Frame):
     def __init__(self, maze_name, master = None):
         super().__init__(master)
@@ -38,7 +40,6 @@ class PacmanGame(tk.Frame):
         
         self.maze_frame.image = [wall_block_image, food_image, ghost_image]
 
-
     def draw_pacman(self):
         pacman_image = Image.open("../IMAGE/pacman.png")
         pacman_image = pacman_image.resize((size_of_block, size_of_block), Image.ANTIALIAS)
@@ -47,7 +48,6 @@ class PacmanGame(tk.Frame):
         self.pacman = self.maze_frame.create_image(self.pacman_pos[1] * size_of_block, self.pacman_pos[0] * size_of_block, anchor='nw', image=pacman_image)
         self.maze_frame.image.append(pacman_image)
     
-
     def pacman_move(self, path, index_path):
         #stop
         if index_path == len(path):
@@ -60,7 +60,7 @@ class PacmanGame(tk.Frame):
                     del_image = self.food[i][0]
                     self.maze_frame.delete(del_image)
                     break
-
+ 
         #continue
         self.maze_frame.move(self.pacman, (path[index_path][1] - path[index_path - 1][1]) * size_of_block,  (path[index_path][0] - path[index_path - 1][0]) * size_of_block )
         self.maze_frame.after(250)
@@ -69,7 +69,7 @@ class PacmanGame(tk.Frame):
 
 if __name__ == '__main__':
     root = tk.Tk()
-    pacman_game = PacmanGame("../INPUT/map1_lv1.txt", master=root)
+    pacman_game = PacmanGame("../INPUT/map5_lv1.txt", master=root)
     pacman_game.master.title("Pacman Game")
     pacman_game.draw_maze()
     pacman_game.draw_pacman()
