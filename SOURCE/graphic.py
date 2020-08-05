@@ -3,10 +3,17 @@ from PIL import Image, ImageTk
 import time
 import data 
 import level2
+<<<<<<< HEAD
 
 size_of_block = 50 
 path = level2.A_star_run("../INPUT/map5_lv1.txt")
 
+=======
+import level1
+
+size_of_block = 50
+
+>>>>>>> 8cdbcb2503fb031391f5eb485592b2244e0670ff
 class PacmanGame(tk.Frame):
     def __init__(self, maze_name, master = None):
         super().__init__(master)
@@ -67,6 +74,7 @@ class PacmanGame(tk.Frame):
         self.maze_frame.update()
         self.pacman_move(path, index_path + 1)
 
+<<<<<<< HEAD
 if __name__ == '__main__':
     root = tk.Tk()
     pacman_game = PacmanGame("../INPUT/map5_lv1.txt", master=root)
@@ -75,3 +83,5 @@ if __name__ == '__main__':
     pacman_game.draw_pacman()
     pacman_game.pacman_move(path, 1)
     pacman_game.mainloop()
+=======
+>>>>>>> 8cdbcb2503fb031391f5eb485592b2244e0670ff
