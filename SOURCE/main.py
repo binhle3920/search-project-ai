@@ -1,4 +1,4 @@
-import graphic, data, level1, level2
+import graphic, data, level12_astar, level12_bfs
 import tkinter as tk
 
 def get_maze_path():
@@ -13,7 +13,7 @@ if __name__ == '__main__':
     root = tk.Tk()
     pacman_game = graphic.PacmanGame(image_path, master=root)
     if level == 1 or level == 2:
-        path = level2.A_star_run("../INPUT/map2_lv1.txt")
+        path = level12_astar.A_star_run("../INPUT/map2_lv1.txt")
 
     pacman_game.master.title("Pacman Game")
     pacman_game.draw_maze()
