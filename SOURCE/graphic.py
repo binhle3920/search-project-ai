@@ -46,10 +46,11 @@ class PacmanGame(tk.Frame):
         self.pacman = self.maze_frame.create_image(self.pacman_pos[1] * size_of_block, self.pacman_pos[0] * size_of_block, anchor='nw', image=pacman_image)
         self.maze_frame.image.append(pacman_image)
     
-    def pacman_move(self, path, index_path):
+    def pacman_move(self, path, index_path, score = 1):
         #stop
+        score -= 1
         if index_path == len(path):
-            return
+            return score
 
         #check food
         if self.maze[path[index_path][0]][path[index_path][1]] == 2:
@@ -57,10 +58,13 @@ class PacmanGame(tk.Frame):
                 if self.food[i][1] == path[index_path]:
                     del_image = self.food[i][0]
                     self.maze_frame.delete(del_image)
+                    score += 20
                     break
  
         #continue
         self.maze_frame.move(self.pacman, (path[index_path][1] - path[index_path - 1][1]) * size_of_block,  (path[index_path][0] - path[index_path - 1][0]) * size_of_block )
         self.maze_frame.after(250)
         self.maze_frame.update()
-        self.pacman_move(path, index_path + 1)
+        return self.pacman_move(path, index_path + 1, score)
+
+        
