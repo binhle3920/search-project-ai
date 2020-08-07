@@ -67,7 +67,7 @@ def BFS(path): #path= link dan
             visited.add(neighbor) 
       
     
-    return None
+    return False
 
 
 
