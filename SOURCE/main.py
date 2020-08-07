@@ -15,6 +15,7 @@ if __name__ == '__main__':
     pacman_game = graphic.PacmanGame(image_path, master=root)
     if level == 1 or level == 2:
         start = time.time()
+        #path = level12_bfs.BFS(image_path)
         path = level12_astar.A_star_run(image_path)
         end = time.time()
         execution_time = end - start
@@ -27,5 +28,6 @@ if __name__ == '__main__':
         print("Score is:", score)
         print("Execution time is: ", execution_time)
         pacman_game.mainloop()
+
     else:
         print('Cant find any path to get to the food')
