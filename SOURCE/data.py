@@ -23,5 +23,3 @@ def get_maze(filename):
     pos = maze.pop(-1)
     size = string_to_number(size.split())
     return maze, size, pos
-
-print(get_maze("../INPUT/map1_lv1.txt"))
