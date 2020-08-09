@@ -21,12 +21,16 @@ def running_to_food(pacman_pos, food_pos, monster_pos):
     #using A* to search for food, every step we will scan again
     #return path, list of new food found, index of food eaten
     return [], [], 0
-
+def monster_move_random(map):
+    #do everything you want to make monster move random around it initial state
+    #return new map with monster pos change and path of each monster move
+    return map, [[]]
 
 
 #using dfs to search for food when there is no food
 def food_searching(map, pacman_pos, explored, path):
     explored.append(pacman_pos)
+    map = monster_move_random(map)
     food_pos, monster_pos = scan_around(pacman_pos)
 
     if food_pos:
@@ -51,7 +55,7 @@ def pacman_running(map, pacman_pos):
     while len(result) != 1:
         pacman_pos, food_pos, monster_pos, add_path, explored = result[:]
         path.append(add_path)
-        
+
         while food_pos:
             food_path, more_food, food_eat = running_to_food(pacman_pos, food_pos, monster_pos)
 
@@ -65,4 +69,5 @@ def pacman_running(map, pacman_pos):
 
         result = food_searching(map, pacman_pos, explored, path)
 
+    return path.append(result[0])
     
