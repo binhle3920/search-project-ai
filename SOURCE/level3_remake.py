@@ -45,10 +45,12 @@ def food_searching(map, pacman_pos, explored, path):
 
 #main function
 def pacman_running(map, pacman_pos):
+    path = [pacman_pos]
     result = food_searching(map, pacman_pos, explored = [], path = [pacman_pos])
     
     while len(result) != 1:
-        pacman_pos, food_pos, monster_pos, path, explored = result[:]
+        pacman_pos, food_pos, monster_pos, add_path, explored = result[:]
+        path.append(add_path)
         
         while food_pos:
             food_path, more_food, food_eat = running_to_food(pacman_pos, food_pos, monster_pos)
@@ -62,3 +64,5 @@ def pacman_running(map, pacman_pos):
 
 
         result = food_searching(map, pacman_pos, explored, path)
+
+    
