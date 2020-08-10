@@ -11,6 +11,7 @@ class PacmanGame(tk.Frame):
         self.maze, self.size, self.pacman_pos = data.get_maze(maze_name)
         self.pacman = None
         self.food = []
+        self.monster = []
         self.maze_frame = tk.Canvas(width = self.size[1] * size_of_block, height = self.size[0] * size_of_block, bg = "black")
         self.maze_frame.pack() 
     
@@ -34,7 +35,7 @@ class PacmanGame(tk.Frame):
                 if self.maze[row][column] == 2:
                     self.food.append([self.maze_frame.create_image(column * size_of_block, row * size_of_block, anchor='nw', image=food_image), (row, column)])
                 if self.maze[row][column] == 3:
-                    self.maze_frame.create_image(column * size_of_block, row * size_of_block, anchor='nw', image=ghost_image)
+                    self.monster.append([self.maze_frame.create_image(column * size_of_block, row * size_of_block, anchor='nw', image=ghost_image), (row, column)])
         
         self.maze_frame.image = [wall_block_image, food_image, ghost_image]
 
@@ -46,25 +47,39 @@ class PacmanGame(tk.Frame):
         self.pacman = self.maze_frame.create_image(self.pacman_pos[1] * size_of_block, self.pacman_pos[0] * size_of_block, anchor='nw', image=pacman_image)
         self.maze_frame.image.append(pacman_image)
     
-    def pacman_move(self, path, index_path, score = 1):
+    def pacman_move(self, pacman_path, monster_path, index_path, speed, score = 1):
         #stop
         score -= 1
-        if index_path == len(path):
+        if index_path == len(pacman_path):
             return score
 
         #check food
-        if self.maze[path[index_path][0]][path[index_path][1]] == 2:
+        if self.maze[pacman_path[index_path][0]][pacman_path[index_path][1]] == 2:
             for i in range(len(self.food)):
-                if self.food[i][1] == path[index_path]:
+                if self.food[i][1] == pacman_path[index_path]:
                     del_image = self.food[i][0]
                     self.maze_frame.delete(del_image)
                     score += 20
                     break
  
         #continue
-        self.maze_frame.move(self.pacman, (path[index_path][1] - path[index_path - 1][1]) * size_of_block,  (path[index_path][0] - path[index_path - 1][0]) * size_of_block )
-        self.maze_frame.after(250)
+        self.maze_frame.move(self.pacman, (pacman_path[index_path][1] - pacman_path[index_path - 1][1]) * size_of_block,  (pacman_path[index_path][0] - pacman_path[index_path - 1][0]) * size_of_block )
+        self.maze_frame.after(speed)
         self.maze_frame.update()
-        return self.pacman_move(path, index_path + 1, score)
 
+        if not monster_path:
+            return self.pacman_move(pacman_path, monster_path, index_path + 1, speed, score)
+            
+        return self.monster_move(pacman_path, monster_path, index_path, speed, score)
+
+    def monster_move(self, pacman_path, monster_path, index_path, speed, score):
+        if index_path == len(monster_path[0]):
+            return score
+
+        for i in range(len(monster_path)):
+            self.maze_frame.move(self.monster[i][0], (monster_path[i][index_path][1] - monster_path[i][index_path - 1][1]) * size_of_block,  (monster_path[i][index_path][0] - monster_path[i][index_path - 1][0]) * size_of_block )
         
+        self.maze_frame.after(speed)
+        self.maze_frame.update()
+
+        return self.pacman_move(pacman_path, monster_path, index_path + 1, speed, score)
