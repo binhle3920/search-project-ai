@@ -65,11 +65,14 @@ def monster_move(maze, monster_path):
             pos = possible_choice(monster_number, direction)
             if isinstance(pos, tuple):
                 monster_path[monster_number].append(pos)
+                maze[monster_cur_pos[monster_number][0]][monster_cur_pos[monster_number][1]] = 0
+                maze[pos[0]][pos[1]] = 3
+                monster_cur_pos[monster_number] = pos
                 break
             else:
                 available_direction.pop(available_direction.index(pos))
         if len(available_direction) == 0:
             monster_path[monster_number].append(monster_cur_pos[monster_number])
     
-    return monster_path
+    return monster_path, maze
         
