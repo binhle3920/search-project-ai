@@ -9,7 +9,7 @@ import level3_remake_again as lvl3
 
 def get_maze_path():
     #string = input("Input maze name: ")
-    string = 'map1_lv3'
+    string = 'map5_lv3'
     string = "../INPUT/" + string + ".txt"
     return string
 
@@ -31,7 +31,7 @@ if __name__ == '__main__':
         execution_time = end - start
 
     if level == 3:
-        pacman_path, monster_path = lvl3.level3(image_path)
+        pacman_path, monster_path,finish_state = lvl3.level3(image_path)
 
     if not isinstance(pacman_path, bool):
         pacman_game.master.title("Pacman Game")
