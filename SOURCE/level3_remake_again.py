@@ -72,8 +72,8 @@ def pacman_moveable_pos(maze, pacman_pos, monster_pos, size):
 def level3(path):
     maze, size, pacman_pos = data.get_maze(path)
     path_pacman,monster_path,final_state=A_star_call(maze,size,tuple(pacman_pos))
-    print(path_pacman)
-    print(monster_path)
+    #print(path_pacman)
+    #print(monster_path)
     return path_pacman, monster_path,final_state
 
 def Manhattan_food(u, v):
@@ -160,34 +160,44 @@ def A_star(MapLen, Map, start, goal):
     return False
 
 def stay_and_wait(Map,MapLen,pacman_pos,monster_path,path_start_goal,food_pos):
+    more_food, monsters_pos = scan_around(Map, pacman_pos, MapLen)
+    moveable_pos=pacman_moveable_pos(Map, pacman_pos, monsters_pos, MapLen)
+    for monster in monsters_pos:
+        if Manhattan(pacman_pos,monster)<2:
+            if len(moveable_pos)>0:
+                pacman_pos=random.choice(moveable_pos)
+                break
     path_start_goal.append(pacman_pos)
     monster_path,Map = ms.monster_move(Map, monster_path)
     more_food, monsters_pos = scan_around(Map, pacman_pos, MapLen)
+    if pacman_pos in monsters_pos:
+        return Map,pacman_pos,"dead"
     for food in more_food:
         if food not in food_pos:
             food_pos.append(food)
+    return Map,pacman_pos,"alive"
     
 def go_A_star(Map,MapLen,start,goal,monster_path,food_pos):
     path_A_star=A_star(MapLen,Map,start,goal)
     pacman_pos=start
     path_start_goal=[pacman_pos]
-    if path_A_star==False:
-        stay_and_wait(Map,MapLen,pacman_pos,monster_path,path_start_goal,food_pos)
-        path_A_star=A_star(MapLen,Map,start,goal)
-    else:
-        pacman_pos=path_A_star.pop(0)
+    while path_A_star==False:
+        Map,pacman_pos,live_state=stay_and_wait(Map,MapLen,pacman_pos,monster_path,path_start_goal,food_pos)
+        if live_state=="dead":
+            return Map,path_start_goal,"dead"
+        path_A_star=A_star(MapLen,Map,pacman_pos,goal)
+    pacman_pos=path_A_star.pop(0)
     while pacman_pos!=goal:
         pacman_new_step=path_A_star[0]
         more_food, monsters_pos = scan_around(Map, pacman_pos, MapLen)
         moveable_pos=pacman_moveable_pos(Map, pacman_pos, monsters_pos, MapLen)
-        print('go_A',start,goal,pacman_pos,monsters_pos)
-        print('Map',Map)
+        #print('go_A',start,goal,pacman_pos,monsters_pos)
         if pacman_new_step in moveable_pos:
             monster_path,Map = ms.monster_move(Map, monster_path)
             pacman_pos=path_A_star.pop(0)
             path_start_goal.append(pacman_pos)
             more_food, monsters_pos = scan_around(Map, pacman_pos, MapLen)
-            print('more_food',more_food)
+            #print('more_food',more_food,monsters_pos)
             for food in more_food:
                 if food not in food_pos:
                     food_pos.append(food)
@@ -210,11 +220,12 @@ def go_A_star(Map,MapLen,start,goal,monster_path,food_pos):
                 if food not in food_pos:
                     food_pos.append(food)
             path_A_star=A_star(MapLen,Map,pacman_pos,goal)
-            if path_A_star==False:
-                stay_and_wait(Map,MapLen,pacman_pos,monster_path,path_start_goal,food_pos)
-                path_A_star=A_star(MapLen,Map,start,goal)
-            else:
-                pacman_pos=path_A_star.pop(0)
+            while path_A_star==False:
+                Map,pacman_pos,live_state=stay_and_wait(Map,MapLen,pacman_pos,monster_path,path_start_goal,food_pos)
+                if live_state=="dead":
+                    return Map,path_start_goal,"dead"
+                path_A_star=A_star(MapLen,Map,pacman_pos,goal)
+            pacman_pos=path_A_star.pop(0)
     return Map,path_start_goal,"alive"
 
 def food_eat_all(Map,MapLen):
@@ -252,7 +263,7 @@ def random_find_food(Map,MapLen,path_pacman,monster_path,explored_cells):
                 food_pos.append(food)
         if pacman_pos in monsters_pos:
             return Map,food_pos,"dead"
-        print(random_step,food_pos,monsters_pos)
+        #print(random_step,food_pos,monsters_pos)
         if len(food_pos)>0:
             return Map,food_pos,"alive"
         count_random+=1
@@ -273,21 +284,19 @@ def A_star_call(Map,MapLen,PacmanPos):
             if len(food_pos)==0:
                 return path_pacman,monster_path,"alive"
         Map,path_food,live_state = go_A_star(Map,MapLen, path_pacman[-1], food_pos[0],monster_path, food_pos)
-        print(live_state,food_pos)
-        if len(food_pos)>0:
-            current_food = food_pos.pop(0)
+        #print(live_state,path_pacman)
+        current_food = food_pos.pop(0)
+        Map[current_food[0]][current_food[1]]=0
+        pacman_pos=current_food
+        if len(path_pacman)==0:
+            for i in range(len(path_food)):
+                path_pacman.append(path_food[i])
+                explored_cells.append(path_food[i])
+        else:
+            for i in range(1,len(path_food)):
+                path_pacman.append(path_food[i])
+                explored_cells.append(path_food[i])
         if live_state == "dead":
             return path_pacman,monster_path,"dead"
-        else:
-            Map[current_food[0]][current_food[1]]=0
-            pacman_pos=current_food
-            if len(path_pacman)==0:
-                for i in range(len(path_food)):
-                    path_pacman.append(path_food[i])
-                    explored_cells.append(path_food[i])
-            else:
-                for i in range(1,len(path_food)):
-                    path_pacman.append(path_food[i])
-                    explored_cells.append(path_food[i])
                 
 

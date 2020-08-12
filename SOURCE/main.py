@@ -9,7 +9,7 @@ import level3_remake_again as lvl3
 
 def get_maze_path():
     #string = input("Input maze name: ")
-    string = 'map3_lv3'
+    string = 'map5_lv3'
     string = "../INPUT/" + string + ".txt"
     return string
 
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     #level = int(input("Input level of game (1/2/3/4): "))
     level=3
     #speed = int(input("Input game speed (ms): "))
-    speed=500
+    speed=200
 
     root = tk.Tk()
     pacman_game = graphic.PacmanGame(image_path, master=root)
