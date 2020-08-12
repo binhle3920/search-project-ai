@@ -3,6 +3,7 @@ import random
 monster_init_pos = [] 
 monster_cur_pos = []
 monster_possible_pos = []
+monster_over_food = []
 
 def get_monster_init_pos(maze, size):
     for i in range(size[0]):
@@ -66,14 +67,17 @@ def monster_move(maze, monster_path):
             if isinstance(pos, tuple):
                 monster_path[monster_number].append(pos)
 
-                if maze[monster_cur_pos[monster_number][0]][monster_cur_pos[monster_number][1]] == 32:
+                if monster_over_food[monster_number] == 1:
                     maze[monster_cur_pos[monster_number][0]][monster_cur_pos[monster_number][1]] = 2
                 else:
                     maze[monster_cur_pos[monster_number][0]][monster_cur_pos[monster_number][1]] = 0
+
                 if maze[pos[0]][pos[1]] == 2:
-                    maze[pos[0]][pos[1]] = 32
+                    monster_over_food[monster_number] = 1
                 else:
-                    maze[pos[0]][pos[1]] = 3
+                    monster_over_food[monster_number] = 0
+
+                maze[pos[0]][pos[1]] = 3
                     
                 monster_cur_pos[monster_number] = pos
                 break
