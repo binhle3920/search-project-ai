@@ -80,9 +80,9 @@ def Manhattan_food(u, v):
     return abs(u[0]-v[0])+abs(u[1]-v[1])
 
 
-def findValue(l, v):
-    for index, i in enumerate(l):
-        if i == v:
+def findValue(arr, v):
+    for index, i in enumerate(arr):
+        if i[1] == v:
             return index
     return -1
 
@@ -108,10 +108,9 @@ def AddNode(v, x):
         return (v[0]+1, v[1])
     elif x == 3:
         return (v[0], v[1]+1)
-    else:
-        return -1
 
 def A_star(MapLen, Map, start, goal):
+    #print('run_a_star')
     frontier = []
     explored = []
     trace=[]
@@ -126,30 +125,27 @@ def A_star(MapLen, Map, start, goal):
         u_Fcost = u[0]
         u_node = u[1]        
         explored.append(u_node)
+        #print(u[1],explored)
         if u_node == goal:
             return solution(trace,goal,start)
         path_cost = u_Fcost-Manhattan_food(u_node, goal)
-        check = False
         for v in range(4):
+            temp=None
             # hang-1,cot
             if (u_node[0] > 0) and (v == 0):
                 temp = AddNode(u_node, v)
-                check = True
             # hang,cot-1
             if (u_node[1] > 0) and (v == 1):
                 temp = AddNode(u_node, v)
-                check = True
             # hang+1,cot
             if (u_node[0] < MapLen[0]-1) and (v == 2):
                 temp = AddNode(u_node, v)
-                check = True
             # hang,cot+1
             if (u_node[1] < MapLen[1]-1) and (v == 3):
                 temp = AddNode(u_node, v)
-                check = True
-            if (check) and (Map[temp[0]][temp[1]] != 1) and (Map[temp[0]][temp[1]] != 3):
+            if (temp!=None) and (temp not in explored) and (Map[temp[0]][temp[1]] != 1) and (Map[temp[0]][temp[1]] != 3):
                 pos_frontier = findValue(frontier, temp)
-                if (temp not in explored) and (pos_frontier == -1):
+                if pos_frontier == -1:
                     trace[temp[0]][temp[1]] = (u_node[0], u_node[1])
                     frontier.append((path_cost+1+Manhattan_food(temp, goal), temp))
                 elif pos_frontier != -1:
@@ -178,6 +174,7 @@ def stay_and_wait(Map,MapLen,pacman_pos,monster_path,path_start_goal,food_pos):
     return Map,pacman_pos,"alive"
     
 def go_A_star(Map,MapLen,start,goal,monster_path,food_pos):
+    #print('start_A_star',start,goal)
     path_A_star=A_star(MapLen,Map,start,goal)
     pacman_pos=start
     path_start_goal=[pacman_pos]
