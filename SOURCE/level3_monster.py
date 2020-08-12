@@ -10,6 +10,7 @@ def get_monster_init_pos(maze, size):
         for j in range(size[1]):
             if maze[i][j] == 3:
                 monster_init_pos.append((i, j))
+                monster_over_food.append(0)
 
 def monster_possible_move(maze, size):
     a_monster_move = []
