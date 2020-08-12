@@ -9,15 +9,17 @@ import level3_remake_again as lvl3
 
 def get_maze_path():
     #string = input("Input maze name: ")
-    string = 'map3_lv3'
+    string = 'map5_lv3'
     string = "../INPUT/" + string + ".txt"
     return string
 
 
 if __name__ == '__main__':
     image_path = get_maze_path()
-    level = int(input("Input level of game (1/2/3/4): "))
-    speed = int(input("Input game speed (ms): "))
+    #level = int(input("Input level of game (1/2/3/4): "))
+    level=3
+    #speed = int(input("Input game speed (ms): "))
+    speed=500
 
     root = tk.Tk()
     pacman_game = graphic.PacmanGame(image_path, master=root)
@@ -29,7 +31,7 @@ if __name__ == '__main__':
         execution_time = end - start
 
     if level == 3:
-        pacman_path, monster_path = lvl3.level3(image_path)
+        pacman_path, monster_path,finish_state = lvl3.level3(image_path)
 
     if not isinstance(pacman_path, bool):
         pacman_game.master.title("Pacman Game")
@@ -37,7 +39,7 @@ if __name__ == '__main__':
         pacman_game.draw_pacman()
         score = pacman_game.pacman_move(pacman_path, monster_path, 1, speed, 1)
         print("Score is:", score)
-        print("Execution time is: ", execution_time)
+        #print("Execution time is: ", execution_time)
         pacman_game.mainloop()
 
     else:
