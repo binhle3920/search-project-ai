@@ -9,7 +9,7 @@ import level3_remake_again as lvl3
 
 def get_maze_path():
     #string = input("Input maze name: ")
-    string = 'map5_lv3'
+    string = 'map3_lv3'
     string = "../INPUT/" + string + ".txt"
     return string
 
