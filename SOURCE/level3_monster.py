@@ -16,7 +16,7 @@ def monster_possible_move(maze, size):
         for i in range(-1, 2):
             for j in range(-1, 2):
                 if monster[0] + i >= 0 and monster[0] + i < size[0] and monster[1] + j >= 0 and  monster[1] + j < size[1]:
-                    if maze[monster[0] + i][monster[1] + j] == 0:
+                    if maze[monster[0] + i][monster[1] + j] == 0 or maze[monster[0] + i][monster[1] + j] == 2:
                         a_monster_move.append((monster[0] + i, monster[1] + j))
         monster_possible_pos.append(a_monster_move)
         a_monster_move = []
