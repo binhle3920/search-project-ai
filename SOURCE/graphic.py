@@ -60,6 +60,7 @@ class PacmanGame(tk.Frame):
                     del_image = self.food[i][0]
                     self.maze_frame.delete(del_image)
                     score += 20
+                    self.maze[pacman_path[index_path][0]][pacman_path[index_path][1]] = 0
                     break
  
         #continue
