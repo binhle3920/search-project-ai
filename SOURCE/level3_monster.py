@@ -65,8 +65,16 @@ def monster_move(maze, monster_path):
             pos = possible_choice(monster_number, direction)
             if isinstance(pos, tuple):
                 monster_path[monster_number].append(pos)
-                maze[monster_cur_pos[monster_number][0]][monster_cur_pos[monster_number][1]] = 0
-                maze[pos[0]][pos[1]] = 3
+
+                if maze[monster_cur_pos[monster_number][0]][monster_cur_pos[monster_number][1]] == 32:
+                    maze[monster_cur_pos[monster_number][0]][monster_cur_pos[monster_number][1]] = 2
+                else:
+                    maze[monster_cur_pos[monster_number][0]][monster_cur_pos[monster_number][1]] = 0
+                if maze[pos[0]][pos[1]] == 2:
+                    maze[pos[0]][pos[1]] = 32
+                else:
+                    maze[pos[0]][pos[1]] = 3
+                    
                 monster_cur_pos[monster_number] = pos
                 break
             else:
