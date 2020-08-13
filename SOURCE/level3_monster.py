@@ -23,28 +23,28 @@ def monster_possible_move(maze, size):
         monster_possible_pos.append(a_monster_move)
         a_monster_move = []
 
-def possible_choice(monster_number, direction):
+def possible_choice(maze, monster_number, direction):
     if direction == "up":
         pos = (monster_cur_pos[monster_number][0] + 1, monster_cur_pos[monster_number][1])
-        if pos in monster_possible_pos[monster_number]:
+        if pos in monster_possible_pos[monster_number] and maze[pos[0]][pos[1]] != 3:
             return pos
         else:
             return "up"
     elif direction == "down":
         pos = (monster_cur_pos[monster_number][0] - 1, monster_cur_pos[monster_number][1])
-        if pos in monster_possible_pos[monster_number]:
+        if pos in monster_possible_pos[monster_number] and maze[pos[0]][pos[1]] != 3:
             return pos
         else:
             return "down"
     elif direction == "left":
         pos = (monster_cur_pos[monster_number][0], monster_cur_pos[monster_number][1] - 1)
-        if pos in monster_possible_pos[monster_number]:
+        if pos in monster_possible_pos[monster_number] and maze[pos[0]][pos[1]] != 3:
             return pos
         else:
             return "left"
     elif direction == "right":
         pos = (monster_cur_pos[monster_number][0], monster_cur_pos[monster_number][1] + 1)
-        if pos in monster_possible_pos[monster_number]:
+        if pos in monster_possible_pos[monster_number] and maze[pos[0]][pos[1]] != 3:
             return pos
         else:
             return "right"
@@ -64,7 +64,7 @@ def monster_move(maze, monster_path):
         available_direction = ["up", "down", "left", "right"]
         while len(available_direction) > 0:
             direction = random.choice(available_direction)
-            pos = possible_choice(monster_number, direction)
+            pos = possible_choice(maze, monster_number, direction)
             if isinstance(pos, tuple):
                 monster_path[monster_number].append(pos)
 
@@ -171,7 +171,8 @@ def smart_monster(maze, pacman_pos, index, size):
                     if frontier[pos_frontier][0]> path_cost+1+Manhattan(temp,goal):
                         trace[temp[0]][temp[1]]=(u_node[0],u_node[1])
                         frontier[pos_frontier]=(path_cost+1+Manhattan(temp,goal),temp)
-    return [monster_pos]
+                        
+    return [monster_init_pos[index]]
 
 def A_star_monster(maze, pacman_pos,index, size):
     return smart_monster(maze, pacman_pos, index, size)
