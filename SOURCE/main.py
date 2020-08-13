@@ -4,12 +4,11 @@ import level12_astar
 import level12_bfs
 import tkinter as tk
 import time
-import level3_remake_again as lvl3
+import level3 as lvl3
 
 
 def get_maze_path():
     string = input("Input maze name: ")
-    string = 'map4_lv3'
     string = "../INPUT/" + string + ".txt"
     return string
 
@@ -29,7 +28,10 @@ if __name__ == '__main__':
         execution_time = end - start
 
     elif level == 3:
+        start = time.time()
         pacman_path, monster_path,finish_state = lvl3.level3(image_path)
+        end = time.time()
+        execution_time = end - start
     elif level == 4:
         pass
 
