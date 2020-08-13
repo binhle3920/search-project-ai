@@ -276,12 +276,14 @@ def A_star_call(Map,MapLen,PacmanPos):
             food_pos, key=lambda food: Manhattan_food(path_pacman[-1], food))
         if len(food_pos)==0:
             if food_eat_all(Map,MapLen):
+                print(Map)
                 return path_pacman,monster_path,"alive"
             Map,food_pos,live_state=random_find_food(Map,MapLen,path_pacman,monster_path,explored_cells)
             if len(food_pos)==0:
+                
                 return path_pacman,monster_path,"alive"
         Map,path_food,live_state = go_A_star(Map,MapLen, path_pacman[-1], food_pos[0],monster_path, food_pos)
-        #print(live_state,path_pacman)
+        print('food',path_pacman[-1],Map,food_pos)
         current_food = food_pos.pop(0)
         Map[current_food[0]][current_food[1]]=0
         pacman_pos=current_food

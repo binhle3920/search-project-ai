@@ -4,13 +4,12 @@ import level12_astar
 import level12_bfs
 import tkinter as tk
 import time
-import level3_monster
 import level3_remake_again as lvl3
 
 
 def get_maze_path():
     #string = input("Input maze name: ")
-    string = 'map3_lv4'
+    string = 'map5_lv3'
     string = "../INPUT/" + string + ".txt"
     return string
 
@@ -18,9 +17,9 @@ def get_maze_path():
 if __name__ == '__main__':
     image_path = get_maze_path()
     #level = int(input("Input level of game (1/2/3/4): "))
-    level=4
+    level=3
     #speed = int(input("Input game speed (ms): "))
-    speed=200
+    speed=50
 
     root = tk.Tk()
     pacman_game = graphic.PacmanGame(image_path, master=root)
@@ -30,6 +29,7 @@ if __name__ == '__main__':
         monster_path = []
         end = time.time()
         execution_time = end - start
+
     elif level == 3:
         pacman_path, monster_path,finish_state = lvl3.level3(image_path)
     elif level == 4:
@@ -43,7 +43,7 @@ if __name__ == '__main__':
         monster = level3_monster.init_monster(maze, size)
         for i in range(len(monster)):
             monster_path.append(level3_monster.A_star_monster(maze,pacman_pos,i,size))
-        
+
     if not isinstance(pacman_path, bool):
         pacman_game.master.title("Pacman Game")
         pacman_game.draw_maze()
