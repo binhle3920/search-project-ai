@@ -2,9 +2,25 @@ import level3_monster
 import random
 import data
 
+monster_init_pos = []
+monster_cur_pos = []
+monster_path = []
+monster_random_number = []
+monster_temp_path = []
 
-
-
+def init_monster(maze, size):
+    for i in range(size[0]):
+        for j in range(size[1]):
+            if maze[i][j] == 3:
+                monster_init_pos.append((i, j))
+                monster_cur_pos.append((i, j))
+    for i in range(len(monster_init_pos)):
+        monster_path.append([monster_init_pos[i]])
+        monster_random_number.append(random.choice([1, 2, 3, 4]))
+        monster_temp_path.append([])
+    
+    print(monster_random_number)
+    return monster_path
 
 def solution(trace,v,start):
     path_list=[]
@@ -43,9 +59,9 @@ def findValue(l,v):
     return -1
 
 
-def smart_monster(maze, pacman_pos, index, size , monster):
-    start = monster[index][0]
-    temp = (pacman_pos[1], pacman_pos[0])
+def smart_monster(maze, pacman_pos, index, size):
+    start = monster_cur_pos[index]
+    temp = (pacman_pos[0], pacman_pos[1])
     goal = temp
     frontier=[(Manhattan(start,goal),start)]
     explored=[]
@@ -90,35 +106,27 @@ def smart_monster(maze, pacman_pos, index, size , monster):
                     if frontier[pos_frontier][0]> path_cost+1+Manhattan(temp,goal):
                         trace[temp[0]][temp[1]]=(u_node[0],u_node[1])
                         frontier[pos_frontier]=(path_cost+1+Manhattan(temp,goal),temp)
-    return [monster_pos]
+    return [monster_cur_pos[index]]
 
-def A_star_monster(maze, pacman_pos,index, size,monster):
-    return smart_monster(maze, pacman_pos, index, size,monster)
+def A_star_monster(maze, pacman_pos,index, size):
+    return smart_monster(maze, pacman_pos, index, size)
 
 
-def monster_move(maze,pacman_pos,index,size,monster):
-    path = A_star_monster(maze,pacman_pos, index, size , monster)
-    print("monster thu 1",path)
-    smart_path = []
-    num = 0
-    num = random.randint(2,len(path))
-    print("len",len(path))
-    print(num)
-    for i in range(num):
-        smart_path.append(path[i])
-    return smart_path
-    
+def monster_move(maze,pacman_pos,size):
+    for i in range(len(monster_init_pos)):
+        print(monster_temp_path)
+        if not monster_temp_path[i]: 
+            path = A_star_monster(maze, pacman_pos, i, size)
+            if len(path) - 1 >= monster_random_number[i]:
+                for j in range(1, monster_random_number[i] + 1):
+                    monster_temp_path[i].append(path[j])
+            else:
+                for j in range(1, len(path)):
+                    monster_temp_path[i].append(path[j])
+        
+        monster_path[i].append(monster_temp_path[i][0])
+        monster_cur_pos[i] = monster_temp_path[i][0]
+        monster_temp_path[i].pop(0)
 
-def path_for_each_monster(path):
-    maze,size,pacman_pos = data.get_maze(path)
-    monster = level3_monster.init_monster(maze, size)
-
-    monster_path = []
-    for i in range(len(monster)):
-
-        monster_path.append(monster_move(maze,pacman_pos,i,size,monster))
-    print("each monster path",monster_path)
-    
     return monster_path
-
 
