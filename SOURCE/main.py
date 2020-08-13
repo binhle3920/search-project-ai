@@ -6,7 +6,7 @@ import tkinter as tk
 import time
 import level3_monster
 import level4_monster
-import level3_remake_again as lvl3
+# import level3_remake_again as lvl3
 
 
 def get_maze_path():
