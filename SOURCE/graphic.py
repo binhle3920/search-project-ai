@@ -62,7 +62,7 @@ class PacmanGame(tk.Frame):
         self.score_text = self.maze_frame.create_text(self.size[1] * size_of_block + 170, (self.size[0] * size_of_block)//2 , fill = "white", font = "Times 30 italic bold", text = self.score, anchor = "ne")
         
         
-
+        
     def pacman_move(self, pacman_path, monster_path, index_path, speed):
         #stop
         self.score -= 1
