@@ -1,5 +1,5 @@
 import tkinter as tk
-from PIL import Image, ImageTk
+from pil import Image, ImageTk
 import time
 import data 
 

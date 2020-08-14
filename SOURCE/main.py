@@ -12,7 +12,7 @@ import level4 as lvl4
 
 def get_maze_path():
     #string = input("Input maze name: ")
-    string='map4_lv4'
+    string='map5_lv4'
     string = "../INPUT/" + string + ".txt"
     return string
 
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     #level = int(input("Input level of game (1/2/3/4): "))
     level = 4
     #speed = int(input("Input game speed (ms): "))
-    speed=500
+    speed=100
     root = tk.Tk()
     pacman_game = graphic.PacmanGame(image_path, master=root)
     if level == 1 or level == 2:
