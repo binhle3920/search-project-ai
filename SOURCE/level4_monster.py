@@ -17,7 +17,7 @@ def init_monster(maze, size):
                 monster_cur_pos.append((i, j))
     for i in range(len(monster_init_pos)):
         monster_path.append([monster_init_pos[i]])
-        monster_random_number.append(random.choice([1, 2, 3, 4]))
+        monster_random_number.append(random.choice([3, 4, 5]))
         monster_temp_path.append([])
         monster_overlap.append(0)
 
@@ -124,7 +124,9 @@ def monster_move(maze,pacman_pos,size):
             else:
                 for j in range(1, len(path)):
                     monster_temp_path[i].append(path[j])
-        
+                for j in range(monster_random_number[i] - len(path) - 1):
+                    monster_temp_path[i].append(path[j])
+                    
         monster_path[i].append(monster_temp_path[i][0])
         monster_cur_pos[i] = monster_temp_path[i][0]
         monster_temp_path[i].pop(0)
