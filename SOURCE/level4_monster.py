@@ -7,6 +7,7 @@ monster_cur_pos = []
 monster_path = []
 monster_random_number = []
 monster_temp_path = []
+monster_overlap = []
 
 def init_monster(maze, size):
     for i in range(size[0]):
@@ -18,7 +19,8 @@ def init_monster(maze, size):
         monster_path.append([monster_init_pos[i]])
         monster_random_number.append(random.choice([1, 2, 3, 4]))
         monster_temp_path.append([])
-    
+        monster_overlap.append(0)
+
     print(monster_random_number)
     return monster_path
 
@@ -114,7 +116,6 @@ def A_star_monster(maze, pacman_pos,index, size):
 
 def monster_move(maze,pacman_pos,size):
     for i in range(len(monster_init_pos)):
-        print(monster_temp_path)
         if not monster_temp_path[i]: 
             path = A_star_monster(maze, pacman_pos, i, size)
             if len(path) - 1 >= monster_random_number[i]:
@@ -128,5 +129,18 @@ def monster_move(maze,pacman_pos,size):
         monster_cur_pos[i] = monster_temp_path[i][0]
         monster_temp_path[i].pop(0)
 
-    return monster_path
+        if monster_overlap[i] == 0:
+            maze[monster_path[i][-2][0]][monster_path[i][-2][1]] = 0 #vi tri truoc do la 0
+        elif monster_overlap[i] == 2:
+            maze[monster_path[i][-2][0]][monster_path[i][-2][1]] = 2 #vi tri truoc do la 0
+
+        if maze[monster_cur_pos[i][0]][monster_cur_pos[i][1]] == 0:
+            monster_overlap[i] = 0
+        elif maze[monster_cur_pos[i][0]][monster_cur_pos[i][1]] == 2:
+            monster_overlap[i] = 2 
+        elif maze[monster_cur_pos[i][0]][monster_cur_pos[i][1]] == 3:
+            monster_overlap[i] = 3
+        maze[monster_cur_pos[i][0]][monster_cur_pos[i][1]] = 3
+
+    return monster_path, maze
 
