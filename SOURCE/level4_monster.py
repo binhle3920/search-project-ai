@@ -56,7 +56,7 @@ def AddNode(v,x):
 
 def findValue(l,v):
     for index,i in enumerate(l):
-        if i == v:
+        if i[1] == v:
             return index
     return -1
 

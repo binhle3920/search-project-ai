@@ -1,5 +1,5 @@
 import data
-import level3_monster as ms
+import level4_monster as ms
 import random
 
 def scan_around(maze, pacman_pos, size):
@@ -69,7 +69,7 @@ def pacman_moveable_pos(maze, pacman_pos, monster_pos, size):
 
     return pacman_moveable_pos
 
-def level3(path):
+def level4(path):
     maze, size, pacman_pos = data.get_maze(path)
     path_pacman,monster_path,final_state=A_star_call(maze,size,tuple(pacman_pos))
     #print(path_pacman)
@@ -164,7 +164,7 @@ def stay_and_wait(Map,MapLen,pacman_pos,monster_path,path_start_goal,food_pos):
                 pacman_pos=random.choice(moveable_pos)
                 break
     path_start_goal.append(pacman_pos)
-    monster_path,Map = ms.monster_move(Map, monster_path)
+    monster_path,Map = ms.monster_move(Map, pacman_pos,MapLen)
     more_food, monsters_pos = scan_around(Map, pacman_pos, MapLen)
     if pacman_pos in monsters_pos:
         return Map,pacman_pos,"dead"
@@ -190,7 +190,7 @@ def go_A_star(Map,MapLen,start,goal,monster_path,food_pos):
         moveable_pos=pacman_moveable_pos(Map, pacman_pos, monsters_pos, MapLen)
         #print('go_A',start,goal,pacman_pos,monsters_pos)
         if pacman_new_step in moveable_pos:
-            monster_path,Map = ms.monster_move(Map, monster_path)
+            monster_path,Map = ms.monster_move(Map, pacman_pos,MapLen)
             pacman_pos=path_A_star.pop(0)
             path_start_goal.append(pacman_pos)
             more_food, monsters_pos = scan_around(Map, pacman_pos, MapLen)
@@ -209,7 +209,7 @@ def go_A_star(Map,MapLen,start,goal,monster_path,food_pos):
                         pacman_pos=random.choice(moveable_pos)
                     break
             path_start_goal.append(pacman_pos)
-            monster_path,Map = ms.monster_move(Map, monster_path)
+            monster_path,Map = ms.monster_move(Map, pacman_pos,MapLen)
             more_food, monsters_pos = scan_around(Map, pacman_pos, MapLen)
             if pacman_pos in monsters_pos:
                 return Map,path_start_goal,"dead"
@@ -253,7 +253,7 @@ def random_find_food(Map,MapLen,path_pacman,monster_path,explored_cells):
         path_pacman.append(random_step)
         explored_cells.append(random_step)
         pacman_pos=random_step
-        monster_path,Map = ms.monster_move(Map, monster_path)
+        monster_path,Map = ms.monster_move(Map, pacman_pos,MapLen)
         more_food, monsters_pos = scan_around(Map, pacman_pos, MapLen)
         for food in more_food:
             if food not in food_pos:
@@ -266,10 +266,7 @@ def random_find_food(Map,MapLen,path_pacman,monster_path,explored_cells):
         count_random+=1
     return Map,food_pos,"alive"
 
-def pacman_position(Map,MapLen,path_pacman):
-    
-    return 
-    
+
 def A_star_call(Map,MapLen,PacmanPos):
     food_pos,monsters_pos = scan_around(Map, PacmanPos, MapLen)
     path_pacman=[PacmanPos]
@@ -300,4 +297,3 @@ def A_star_call(Map,MapLen,PacmanPos):
         if live_state == "dead":
             return path_pacman,monster_path,"dead"
                 
-
